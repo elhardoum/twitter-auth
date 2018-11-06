@@ -27,7 +27,7 @@ def callback():
     from config import CONSUMER_KEY, CONSUMER_SECRET
     from flask import request, redirect, session
 
-    if not request.args.get('oauth_token') or not request.args.get('oauth_verifier') or not session.get('request_token'):
+    if not request.args.get('oauth_verifier') or not session.get('request_token'):
         return maybe_redirect( 'error=true', 'Error occurred, please try again.' )
 
     auth = tweepy.OAuthHandler(CONSUMER_KEY, CONSUMER_SECRET)
@@ -62,8 +62,8 @@ def maybe_redirect( query_string='', message='' ):
     if not url: return message
 
     if query_string: url += ( '?' if not '?' in url else '&' ) + query_string
-    from flask import redirect
 
+    from flask import redirect
     return redirect( url )
 
 def save_token(user_id, obj):
